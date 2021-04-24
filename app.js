@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 
 const goodList = [
@@ -37,11 +37,27 @@ const goodList = [
 
 function App() {
 
-    const [inputValue, setInputValue ] = useState('');
+    const [inputValue, setInputValue] = useState('');
+    const [goods, setGoods] = useState([]);
 
-    const onSearchItems =(e) => {
-        setInputValue(e.target.value);
+    const onSearchItems =(e) => { 
+      
+      const { value } = e.target;
+        setInputValue(value);
+
+
+        const newItems = goodList.filter(( { name } ) => 
+name.toLowerCase().includes(value.toLowerCase())
+        )
+
+        setGoods(newItems);
+        console.log(newItems);
     };
+
+    useEffect(() => {
+      setGoods(goodList);
+    },[]);
+
 
   return (
      <div className="App">
@@ -57,7 +73,7 @@ function App() {
          </header>
          <main className="main-wrapper" >
              {
-                 goodList.map((item) => (
+                 goods.map((item) => (
                      <div className="item-block" >
                          <p className='item-name'>{item.name}</p>
                          <p className='item-name'>{item.brand}</p>
