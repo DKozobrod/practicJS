@@ -1,4 +1,7 @@
 import { useEffect, useState } from 'react';
+
+import Header from './header';
+import ContentBlock from './contentBlock';
 import './App.css';
 
 const goodList = [
@@ -47,7 +50,7 @@ function App() {
 
 
         const newItems = goodList.filter(( { name } ) => 
-name.toLowerCase().includes(value.toLowerCase())
+               name.toLowerCase().includes(value.toLowerCase())
         )
 
         setGoods(newItems);
@@ -55,36 +58,31 @@ name.toLowerCase().includes(value.toLowerCase())
     };
 
     useEffect(() => {
-      setGoods(goodList);
+      setTimeout(() => setGoods(goodList) , 3000);
     },[]);
 
 
   return (
      <div className="App">
-         <header className="header">
+       <Header 
+            inputValue={inputValue}
+            onSearchItems={onSearchItems}
+       />
+       <ContentBlock
+            goods={goods}
+       />
+       <div>
+           
+           {
+               goods.length === 0 && (
+                <div class="loader"></div>
+               )
+           }
 
-             <input
-                className='search-field'
-                type='text'
-                value={inputValue}
-                onChange={onSearchItems}
-             />
-
-         </header>
-         <main className="main-wrapper" >
-             {
-                 goods.map((item) => (
-                     <div className="item-block" >
-                         <p className='item-name'>{item.name}</p>
-                         <p className='item-name'>{item.brand}</p>
-                         <p className='item-name'>{item.price}</p>
-                     </div>
-                 ))
-             }
-
-         </main>
+        </div>
 
      </div>
+     
   );
 }
 
